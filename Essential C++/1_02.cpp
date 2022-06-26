@@ -4,12 +4,14 @@ using namespace std;
 
 int main(void)
 {
+    string user_name;
     bool next_seq = true; //显示下一组数列
     bool go_for_it = true; //用户想再猜一次
-    bool got_it = false;
-    int num_tries = 0;
-    int num_right = 0;
-    char user_rsp;
+    bool got_it = false; //用户是否猜对
+    int num_tries = 0; //用户猜过的总次数
+    int num_right = 0; //用户答对的总次数
+    double user_score = 0.0; //用户得到的分数
+    
 
     while( next_seq == true )
     {
@@ -42,6 +44,7 @@ int main(void)
                     break;
                 }
                 cout << "Want to try again the answer ? " << endl;
+                char user_rsp;
                 cin >> user_rsp;
                 if( user_rsp == 'N' || user_rsp =='n')
                     go_for_it = false; 
@@ -49,5 +52,9 @@ int main(void)
         }
 
         cout << "Want to try another sequence ? (Y/N)" << endl;
+        char try_again;
+        cin >> try_again;
+        if( try_again == 'N' || try_again =='n')
+            next_seq = false;
     }
 }
