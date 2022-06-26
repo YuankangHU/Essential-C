@@ -13,7 +13,10 @@ int main(void)
     double user_score = 0.0; //用户得到的分数
     
     const int seq_size = 18;
-    int elem_size[seq_size] = {
+    const int max_seq = 6;
+    const int max_tries = 3;
+
+    int elem_seq[seq_size] = {
         1, 2, 3,
         3, 4, 7,
         2, 5, 12,
@@ -21,23 +24,45 @@ int main(void)
         4, 9, 16,
         5, 12, 22
     };
+    
+    string seq_name[max_seq] = {
+        "Fibonacci",
+        "Lucas",
+        "Pell",
+        "Triangular",
+        "Square",
+        "Pentagonal"
+    };
+
     int cur_index = 0;
     while( next_seq == true && cur_index < seq_size )
     {
         //为用户显示数列
-        while((got_it == false) && (go_for_it == true))
+        cout << "The first 2 elements of the sequence are: " << elem_seq[cur_index] << ", "<<elem_seq[cur_index+1]
+        <<endl;
+        cout << "What is the next element ?" << '\n'<<"The answer is : ";
+        
+        int tries_cnt = 0;
+        go_for_it = true;
+        got_it = false;
+        
+        while((got_it == false) && (go_for_it == true) && tries_cnt<max_tries)
         {
             int user_guess;
-            cin >> user_guess;
+            std::cin >> user_guess;
             num_tries++;
-            if( user_guess == 1)
+            tries_cnt++;
+            if( user_guess == elem_seq[cur_index+2])
             {
+                cout << "Very good, yes, " << elem_seq[cur_index+2]
+                     << " is the next element in the "
+                     << seq_name[cur_index/3] << " sequence." << endl;
                 got_it = true;
                 num_right++;
             }
             else
             {
-                switch (num_tries)
+                switch (tries_cnt)
                 {
                 case 1:
                     std::cout << "Oops, Nice guess but not quite it." << endl;
@@ -52,18 +77,26 @@ int main(void)
                     std::cout << "It must be getting pretty frustrating by now!!!" << endl;
                     break;
                 }
-                cout << "Want to try again the answer ? " << endl;
+                cout << "Do you want to try again ? (Y/N) " << '\n' << "The response is: ";
                 char user_rsp;
-                cin >> user_rsp;
+                std::cin >> user_rsp;
                 if( user_rsp == 'N' || user_rsp =='n')
                     go_for_it = false; 
+                
+                else if(tries_cnt == max_tries)
+                    cout <<"Sorry, you do not have a chance"<<endl;
+                
+                else
+                    cout<<"The answer is: ";
             }
         }
 
         cout << "Want to try another sequence ? (Y/N)" << endl;
         char try_again;
-        cin >> try_again;
+        std::cin >> try_again;
         if( try_again == 'N' || try_again =='n')
             next_seq = false;
+        else
+            cur_index+=3;
     }
 }
