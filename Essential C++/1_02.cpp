@@ -12,8 +12,17 @@ int main(void)
     int num_right = 0; //用户答对的总次数
     double user_score = 0.0; //用户得到的分数
     
-
-    while( next_seq == true )
+    const int seq_size = 18;
+    int elem_size[seq_size] = {
+        1, 2, 3,
+        3, 4, 7,
+        2, 5, 12,
+        3, 6, 18,
+        4, 9, 16,
+        5, 12, 22
+    };
+    int cur_index = 0;
+    while( next_seq == true && cur_index < seq_size )
     {
         //为用户显示数列
         while((got_it == false) && (go_for_it == true))
