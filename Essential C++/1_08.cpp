@@ -1,4 +1,5 @@
 #include<iostream>
+#include<fstream>
 #include<string>
 #include<vector>
 #include<cstdlib>
@@ -8,11 +9,12 @@ using namespace std;
 int main(void)
 {
     string user_name;
+    int num_tries = 0; //用户猜过的总次数
+    int num_right = 0; //用户答对的总次数
     bool next_seq = true; //显示下一组数列
     bool go_for_it = true; //用户想再猜一次
     bool got_it = false; //用户是否猜对
-    int num_tries = 0; //用户猜过的总次数
-    int num_right = 0; //用户答对的总次数
+
     double user_score = 0.0; //用户得到的分数
     
     const int max_tries = 3;
@@ -51,8 +53,18 @@ int main(void)
 
     srand(time(NULL)); //以时间作为参数产生随机数种子
 
+    fstream iofile("data.txt", ios_base::in| ios_base::app); //创建文件，以读写的方式
+
+    if(!iofile){
+        cerr << "Oops, unable to save session data!" << endl;
+    } //判断文件是否存在
+        
+    std::cout << "Enter your name: ";
+    cin >> user_name;
+    cout << "Your num_tries, num_right: " << "0 "<< "0" <<endl; //当前状态
+            
     while( next_seq == true )
-    {
+    {                                      
         seq_index = rand() % max_seq; //随机生成的下标0～5
         currrent_vec = seq_addrs[seq_index]; //将下标传给指针数组
         //为用户显示数列
@@ -112,7 +124,19 @@ int main(void)
         cout << "Want to try another sequence ? (Y/N)" << endl;
         char try_again;
         std::cin >> try_again;
+        
         if( try_again == 'N' || try_again =='n')
+        {
+            cout << "Your num_tries, num_right: " << num_tries << ' ' << num_right <<endl;
+            iofile << user_name << ' ' << num_tries << ' ' << num_right <<endl;
             next_seq = false;
+        }
     }
+    
+    while(iofile >> user_name >> num_tries >> num_right)
+        {
+        cout << "name: " << user_name << endl;
+        cout << "tot: " << num_tries << endl;
+        cout << "right: " << num_right << endl;
+        }            
 }
